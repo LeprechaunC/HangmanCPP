@@ -1,0 +1,106 @@
+#include <iostream>
+#include <string>
+#include <stdlib.h> 
+#include <string>
+
+
+bool game_on = true;
+char guess;
+
+int count = 0;
+int health = 8;
+int sum = 0;
+std::string usedletters = "";
+
+
+
+std::string random_letter()
+{
+    // function returns a random word from words_list
+    int word_count = 12;
+	std::string words_list[word_count] = { "apple", "cucumber", "carrot", "plane", "building", "house", "headphones" , "keyboard", "knife", "candy", "school", "government"};
+	int secret_num = rand() % word_count + 1;
+	return words_list[secret_num];
+}
+
+int main()
+{
+	srand(time(NULL)); // prevents sequence repetition between runs     
+
+
+	std::string correct_word = random_letter();
+	int length = correct_word.length();
+	char correct_words[length];
+	std::cout << correct_word << std::endl;
+	int i = 0;
+	
+	//starting sentence _ _ _ _ 
+	for (int i = 0; i < correct_word.length(); i++){
+			std::cout << " _ ";
+		    
+		}
+	while (game_on == true && health > 0)
+	{
+	   
+	    std::cout << std::endl;
+		std::cout << "guess a letter: ";
+		std::cin >> guess;
+    
+    
+    
+    
+         while (usedletters.find(guess) != std::string::npos )
+    {
+        std::cout<<"Current letter "<< guess << " has been used. Choose another! " << std::endl;
+        std::cin >> guess;
+    }
+    
+    
+    
+    
+		usedletters += guess;
+		std::cout << "\n";
+
+		for (int i = 0; i < correct_word.length(); i++)
+		{
+			if (guess == correct_word[i])
+			{
+				correct_words[i] = guess;
+				count += 1;
+				sum += 1; //
+			}
+
+		}
+		//if user gueses no letters, this if statement plays
+		if (count == 0)
+		{
+			health -= 1;
+			std::cout << std::endl << "YOUR HP: " << health << std::endl;
+			
+			if( health == 0)
+			{
+			    std:: cout << "YOU LOST! The word was: " << correct_word;
+			}
+
+		}
+		 if (sum == correct_word.length()) 
+		{
+		    std::cout << "YOU WON! The word was: " << correct_word;
+		    break;
+		}
+		count = 0;
+
+		for (int i = 0; i < correct_word.length(); i++)
+		{
+			if (correct_word[i] == correct_words[i])
+			{
+				std::cout << " " << (correct_word[i]) << " ";
+			}
+			else
+			{
+				std::cout << " _ ";
+			}
+		}
+	}
+	return 0;
+}
